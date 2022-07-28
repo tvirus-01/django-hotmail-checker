@@ -29,9 +29,9 @@ def checkHotMail(emailAddress, driver):
     try:
         driver.find_element(By.ID, 'MemberNameError')
     except NoSuchElementException:
-        return "email dose not exists"
+        return "this email dose not exists"
 
-    return "email exists"
+    return "this email exists"
 
 def scraper(request):
 
@@ -43,4 +43,8 @@ def scraper(request):
 
     driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
-    return hre(checkHotMail(hotMail, driver))
+    result = checkHotMail(hotMail, driver)
+
+    driver.quit()
+
+    return hre(result)
