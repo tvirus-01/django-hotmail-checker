@@ -7,9 +7,20 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
 
+import re
+
 from time import sleep
 
 # Create your views here.
+
+def checkValid(email):
+ 
+    regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+    if(re.fullmatch(regex, email)):
+        return True
+    else:
+        return False
+
 
 def checkHotMail(emailAddress, driver):
 
@@ -29,13 +40,18 @@ def checkHotMail(emailAddress, driver):
     try:
         driver.find_element(By.ID, 'MemberNameError')
     except NoSuchElementException:
-        return "this email dose not exists"
+        return "This email dose not exists"
 
-    return "this email exists"
+    return "This email exists"
 
 def scraper(request):
 
     hotMail = request.GET.get("email", 1)
+
+    if hotMail == 1:
+        return hre("Please enter an email")
+    elif checkValid(hotMail) == False:
+        return hre("This email is not valid")
 
     options = Options()
     options.headless = True
